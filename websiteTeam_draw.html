@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko">
+	<head>
+		<title>send peace</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+		<style>
+			input[type="range"] {
+			width: 150px;
+			height: 6px;
+			background: #ccc;
+			border-radius: 3px;
+			outline: none;
+			-webkit-appearance: none;
+			margin: 0 10px;
+			}
+
+			/* 슬라이더의 thumb (동그라미) 스타일 */
+			input[type="range"]::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #4a90e2;
+			cursor: pointer;
+			border: 2px solid white;
+			box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+			}
+
+			input[type="range"]::-moz-range-thumb {
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #4a90e2;
+			cursor: pointer;
+			border: 2px solid white;
+			}
+
+			.canvas-wrapper {
+			position: relative;
+			width: 100%;
+			max-width: 1200px;
+			aspect-ratio: 3/2;           /* 3:2 비율 자동 유지! */
+			margin: 40px auto;
+			}
+
+			.canvas-wrapper img,
+			.canvas-wrapper canvas {
+			position: absolute;
+			left: 0; top: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: contain;         /* 비율 깨짐 없이 채움 */
+			display: block;
+			user-select: none;
+			pointer-events: none;        /* 그림 못 긁음 */
+			}
+
+			.canvas-wrapper canvas {
+			pointer-events: auto;        /* 캔버스에만 이벤트 */
+			z-index: 1;
+			}
+
+						/* 버튼 컨테이너 공통 스타일 */
+			#drawing-board > div > div {
+				display: flex;
+				flex-wrap: wrap; /* 줄바꿈 허용 */
+				gap: 0.5rem; /* 버튼 간격 */
+				justify-content: center;
+			}
+
+			/* 화면이 작아졌을 때 버튼 2줄 배치 */
+			@media (max-width: 768px) {
+				#drawing-board > div > div button,
+				#drawing-board > div > div input,
+				#drawing-board > div > div label {
+					flex: 1 1 auto; /* 버튼이 화면에 맞춰 줄바꿈 */
+				}
+			}
+
+			/* 화면이 더 작아졌을 때 버튼이 세로로 나열 */
+			@media (max-width: 480px) {
+				#drawing-board > div > div {
+					flex-direction: column;
+					align-items: center;
+				}
+				#drawing-board > div > div button,
+				#drawing-board > div > div input {
+					width: 90%;
+				}
+			}
+		</style>
+	</head>
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+
+					<!-- Logo -->
+						<h1><a href="index.html">4 peace</a></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
+								<li><a href="mediaTeam.html">공연 및 영상 팀</a></li>
+								<li><a href="pictureTeam.html">사진 기록 팀</a></li>
+								<li><a href="designTeam.html">디자인 팀</a></li>
+								<li class="current"><a href="websiteTeam_Intro.html">웹마스터 팀</a></li>
+								<li>
+									<a href="https://jiyoon6735.wixsite.com/20peaceandfuture25">웹자보</a>
+									<ul>
+										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/%EC%9D%BC%EC%A0%95">일정</a></li>
+										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/about-1">참가자 소개</a></li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+
+
+				</section>
+
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+
+						<!-- Content -->
+							<article class="box post">
+								<header>
+									<h2>4가지 조각을 읽은 후, 어떤 생각이 떠올랐나요? </h2>
+									<p>
+										&nbsp&nbsp&nbsp 떠오른 '평화의 이미지'를 자유롭게 그려봅시다. 그림은 전쟁과 파괴의 흔적 위에 덧입혀지는 치유와 생명의 상징이 됩니다.<br>
+										<br>&nbsp&nbsp&nbsp 예를 들어, 깨끗한 <b style="color: black; font-size: larger;">물, 호수, 새로운 생명, 평화를 기원하는 꽃</b>등 여러분의 <b style="color: black; font-size: larger;">'다시 살아가는 풍경'</b>을 그려보세요.
+										<br>각자의 그림은 하나의 기억이자 선언이 되어 4 peace를 방문한 다른 이들과 함께 평화의 메시지를 이어갑니다.
+									</p>
+								</header>
+
+							<!-- Canvas Drawing Section -->
+								<section id="drawing-board" style="margin-top: 1.5rem;">
+									<div style="text-align: right;">
+										<!-- Toolbars -->
+										<div style="margin-bottom: 1rem;">
+											<button onclick="resetCanvas()">초기화</button>
+											<label for="colorPicker">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp색상:</label>
+											<input type="color" id="colorPicker" value="#000000">
+
+											<label for="lineWidth">두께:</label>
+											<input type="range" id="lineWidth" min="1" max="20" value="3">
+
+											<button onclick="setTool('pen')">펜</button>
+											<button onclick="setTool('eraser')">지우개</button>
+											<button onclick="undo()">실행 취소</button>
+											<button onclick="redo()">다시 실행</button>
+											<button onclick="saveImage()">이미지 저장</button>
+										</div>
+
+										<!-- Canvas -->
+										<div class="canvas-wrapper">
+										<img id="bg" src="wonpock.jpg" width="1200" height="800"
+											style="user-select: none; pointer-events: none;" draggable="false">
+										<canvas id="drawCanvas" width="1200" height="800"></canvas>
+										</div>
+									</div>
+								</section>
+
+							</article>
+
+								<ul class="actions" style="display: block; justify-content: center; gap: 1rem; text-align: center;">
+									<li><a href="websiteTeam_ques.html" class="button large">Last Piece</a></li>
+									<li><a href="websiteTeam_draw copy.html" class="button alt large">Piece of Peace</a></li>
+								</ul>
+
+					</div>
+				</section>
+
+		</div>
+
+			<script>
+				const canvas = document.getElementById('drawCanvas');
+				const ctx = canvas.getContext('2d');
+				let drawing = false;
+				let tool = 'pen';
+				let paths = []; // 그림 기록
+				let undonePaths = [];
+
+				function getPosition(e) {
+				const rect = canvas.getBoundingClientRect();
+				const scaleX = canvas.width / rect.width;
+				const scaleY = canvas.height / rect.height;
+				let x, y;
+				if (e.touches) {
+					x = (e.touches[0].clientX - rect.left) * scaleX;
+					y = (e.touches[0].clientY - rect.top) * scaleY;
+				} else {
+					x = (e.clientX - rect.left) * scaleX;
+					y = (e.clientY - rect.top) * scaleY;
+				}
+				return { x, y };
+				}
+
+				function start(e) {
+				e.preventDefault();
+				drawing = true;
+				const { x, y } = getPosition(e);
+
+				ctx.lineWidth = document.getElementById('lineWidth').value;
+				ctx.lineCap = 'round';
+
+				if (tool === 'pen') {
+					ctx.globalCompositeOperation = 'source-over';
+					ctx.strokeStyle = document.getElementById('colorPicker').value;
+				} else if (tool === 'eraser') {
+					ctx.globalCompositeOperation = 'destination-out';
+					// 색상 상관없음
+				}
+
+				ctx.beginPath();
+				ctx.moveTo(x, y);
+
+				// 현재 그림 저장 (undo 용)
+				paths.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+				undonePaths = [];
+				}
+
+				function draw(e) {
+				if (!drawing) return;
+				const { x, y } = getPosition(e);
+				ctx.lineTo(x, y);
+				ctx.stroke();
+				}
+
+				function end(e) {
+				drawing = false;
+				ctx.closePath();
+				}
+
+				canvas.addEventListener('mousedown', start);
+				canvas.addEventListener('mousemove', draw);
+				canvas.addEventListener('mouseup', end);
+				canvas.addEventListener('mouseout', end);
+				canvas.addEventListener('touchstart', start, { passive: false });
+				canvas.addEventListener('touchmove', draw, { passive: false });
+				canvas.addEventListener('touchend', end);
+
+				function setTool(name) { tool = name; }
+				function resetCanvas() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				paths = [];
+				undonePaths = [];
+				}
+				function undo() {
+				if (paths.length > 0) {
+					undonePaths.push(paths.pop());
+					restore(paths[paths.length - 1]);
+				}
+				}
+				function redo() {
+				if (undonePaths.length > 0) {
+					const restored = undonePaths.pop();
+					paths.push(restored);
+					restore(restored);
+				}
+				}
+				function restore(imageData) {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				if (imageData) ctx.putImageData(imageData, 0, 0);
+				}
+
+				function saveImage() {
+				const canvas = document.getElementById('drawCanvas');
+				const bg = document.getElementById('bg');
+				if (!bg.complete) {
+					alert("배경 이미지가 아직 로드되지 않았습니다. 잠시만 기다려주세요!");
+					return;
+				}
+				// 임시 캔버스 생성
+				const temp = document.createElement('canvas');
+				temp.width = canvas.width;
+				temp.height = canvas.height;
+				const tctx = temp.getContext('2d');
+
+				tctx.drawImage(bg, 0, 0, temp.width, temp.height);
+				tctx.drawImage(canvas, 0, 0);
+
+				const link = document.createElement('a');
+				link.download = 'peace-drawing.png';
+				link.href = temp.toDataURL('image/png');
+				link.click();
+				}
+				
+				// 전역에서 함수 쓸 수 있게
+				window.setTool = setTool;
+				window.resetCanvas = resetCanvas;
+				window.undo = undo;
+				window.redo = redo;
+				window.saveImage = saveImage;
+
+				// 반응형(필요시)
+				// function resize() { ... }
+				// window.addEventListener('resize', resize);
+			</script>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko">
+	<head>
+		<title>send peace</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+		<style>
+			/* ===== base ===== */
+			.peace-gallery{max-width:1100px;margin:40px auto 80px;padding:0 20px}
+			.peace-gallery h2{text-align:center;margin-bottom:14px;color:#222}
+
+			/* ===== frame: grid로 3열 구성 (버튼 | 이미지 | 버튼) ===== */
+			.carousel-wrap{
+			display:grid;
+			grid-template-columns: 64px 1fr 64px; /* 버튼 폭 고정, 가운데는 유동 */
+			column-gap:16px;
+			align-items:center;                   /* 버튼 수직 중앙정렬 */
+			border:1px solid #d8d8d8;
+			border-radius:12px;
+			padding:20px;
+			background:#fff;
+			}
+
+			/* 가운데 이미지 영역 */
+			.viewport{
+			width:100%;
+			aspect-ratio:16/9;
+			border:1px solid #e1e1e1;
+			border-radius:10px;
+			overflow:hidden;
+			background:#fff;
+			}
+			.viewport img{
+			width:100%; height:100%; object-fit:contain;
+			user-select:none; -webkit-user-drag:none;
+			}
+
+			/* 버튼: 더 이상 absolute 아님! → 겹칠 일 없음 */
+			.nav-btn{
+			justify-self:center;                  /* 각 열 중앙 */
+			align-self:center;
+			width:48px;height:48px;border-radius:9999px;
+			background:#f6f6f6;border:1px solid #bfbfbf;
+			box-shadow:0 2px 4px rgba(0,0,0,.06);
+			display:grid;place-items:center;      /* 아이콘 정확히 중앙 */
+			cursor:pointer;padding:0;line-height:0;
+			}
+			.nav-btn:hover{background:#ebebeb}
+			.nav-btn svg{width:18px;height:18px;stroke:#555}
+
+			/* 하단 메타: 전체 너비 사용 */
+			.meta{
+			grid-column:1 / -1;                   /* 3열 모두 span */
+			display:flex;justify-content:space-between;align-items:center;
+			gap:10px;padding:10px 4px 0;font-size:14px;color:#444
+			}
+			.meta .url{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#666}
+			.dots{display:flex;gap:6px;align-items:center}
+			.dot{width:8px;height:8px;border-radius:50%;background:#cfcfcf}
+			.dot.active{background:#444}
+
+			/* ==== Mobile only (≤640px) ==== */
+			@media (max-width: 640px){
+
+			/* 3행 3열: (좌버튼 | 스페이서 | 우버튼) 레이아웃 */
+			.carousel-wrap{
+				/* 행: [이미지] [버튼들] [메타] */
+				grid-template-rows: auto auto auto;
+				/* 열: 좌 1fr | 가운데 고정 스페이서 | 우 1fr */
+				grid-template-columns: 1fr 56px 1fr; /* ← 가운데 56px가 버튼 사이 간격 */
+				row-gap: 14px;
+				column-gap: 12px;
+				padding: 14px 14px 18px; /* 아래 여백 줄여도 됨 */
+				overflow: hidden;        /* 내부 요소가 밖으로 못 나가게 */
+			}
+
+			/* 이미지 박스는 상단 행 전체를 차지 */
+			.viewport{
+				grid-row: 1;
+				grid-column: 1 / -1;
+				aspect-ratio: 16 / 10;
+				margin: 0;               /* 혹시 남아있던 margin 제거 */
+				max-width: 100%;
+				min-width: 0;
+				box-sizing: border-box;
+			}
+
+			/* 버튼: 2행, 좌우 컬럼 중앙 정렬 */
+			.nav-btn{
+				grid-row: 2;
+				width: 44px; height: 44px;
+				justify-self: center;
+				align-self: center;
+			}
+			.nav-prev{ grid-column: 1; }
+			.nav-next{ grid-column: 3; }
+
+			/* 메타: 3행 전체 */
+			.meta{
+				grid-row: 3;
+				grid-column: 1 / -1;
+			}
+
+			/* 도트 살짝 키우기(선택) */
+			.dots{ gap: 8px; }
+			.dot{ width: 9px; height: 9px; }
+			}
+		</style>
+		</head>
+
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+
+					<!-- Logo -->
+						<h1><a href="index.html">4 peace</a></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
+								<li><a href="mediaTeam.html">공연 및 영상 팀</a></li>
+								<li><a href="pictureTeam.html">사진 기록 팀</a></li>
+								<li><a href="designTeam.html">디자인 팀</a></li>
+								<li class="current"><a href="websiteTeam_Intro.html">웹마스터 팀</a></li>
+								<li>
+									<a href="https://jiyoon6735.wixsite.com/20peaceandfuture25">웹자보</a>
+									<ul>
+										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/%EC%9D%BC%EC%A0%95">일정</a></li>
+										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/about-1">참가자 소개</a></li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+
+
+				</section>
+
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+						<section class="peace-gallery" aria-label="우리가 이어갈 평화의 메시지">
+						<h2>우리가 이어갈 평화의 메시지</h2>
+						<div class="carousel-wrap" style="margin: 2em 0 0 0;">
+							<button class="nav-btn nav-prev" aria-label="이전">
+							<svg viewBox="0 0 24 24" fill="none"><path d="M15 19L8 12L15 5" stroke="#d46b64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+							</button>
+
+							<div class="viewport">
+							<img id="slide-img" alt="아래 링크를 통해 사진을 업로드" loading="eager">
+							</div>
+
+							<button class="nav-btn nav-next" aria-label="다음">
+							<svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="#d46b64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+							</button>
+
+							<div class="meta">
+							<span id="counter">1 / 1</span>
+							<div class="dots" id="dots"></div>
+							<a class="url"
+							href="https://drive.google.com/drive/folders/1s18kCn8eUxR0oG-4-A42H5DGtXtx1jca?usp=sharing"
+							target="_blank" rel="noopener">
+							여기를 눌러 사진을 업로드 해주세요
+							</a>
+							</div>
+						</div>
+						</section>
+						<ul class="actions" style="display: block; justify-content: center; gap: 1rem; text-align: center;">
+							<li><a href="websiteTeam_draw.html" class="button large">Last Piece</a></li>
+							<li><a href="websiteTeam_Intro.html" class="button alt large">Back to Start</a></li>
+						</ul>
+					</div>
+
+				</section>
+
+		</div>
+
+		<script>
+		// 표시할 이미지들
+		const IMAGES = [
+			"images/peace_drawing.png",
+			"images/peace_drawing_1.png",
+			"images/peace_drawing_2.png"
+		];
+
+		(function () {
+			const imgEl   = document.getElementById('slide-img');
+			const dotsEl  = document.getElementById('dots');
+			const counter = document.getElementById('counter');
+			const prevBtn = document.querySelector('.nav-prev');
+			const nextBtn = document.querySelector('.nav-next');
+			let i = 0;
+
+			// 도트 생성
+			dotsEl.innerHTML = "";
+			IMAGES.forEach((_, idx) => {
+			const d = document.createElement('div');
+			d.className = 'dot' + (idx === 0 ? ' active' : '');
+			d.addEventListener('click', () => go(idx));
+			dotsEl.appendChild(d);
+			});
+
+			function render() {
+			if (!IMAGES.length) return;
+			imgEl.src = IMAGES[i];
+			counter.textContent = `${i + 1} / ${IMAGES.length}`;
+			[...dotsEl.children].forEach((d, idx) => d.classList.toggle('active', idx === i));
+			}
+
+			function go(n) {
+			i = (n + IMAGES.length) % IMAGES.length;
+			render();
+			}
+
+			prevBtn.addEventListener('click', () => go(i - 1));
+			nextBtn.addEventListener('click', () => go(i + 1));
+
+			// 키보드
+			window.addEventListener('keydown', e => {
+			if (e.key === 'ArrowLeft')  go(i - 1);
+			if (e.key === 'ArrowRight') go(i + 1);
+			});
+
+			// 터치 스와이프
+			let sx = null;
+			const vp = document.querySelector('.viewport');
+			vp.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+			vp.addEventListener('touchend',   e => {
+			if (sx == null) return;
+			const dx = e.changedTouches[0].clientX - sx;
+			if (Math.abs(dx) > 40) (dx < 0 ? go(i + 1) : go(i - 1));
+			sx = null;
+			});
+
+			render();
+		})();
+		</script>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
