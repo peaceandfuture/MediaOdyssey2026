@@ -175,10 +175,10 @@
 				<section id="main" style="padding-bottom: 30px">
 					<div class="container">
 						<br>
-						<h2>공연 및 영상 팀 아카이브</h2>
+						<h2>공연 팀 아카이브</h2>
 
 						<p class="archive-intro" style="margin-bottom: 20px;">
-						첼로 연주, 정가 공연, 시 낭송을 통해 추모 공연을 진행하고 이를 기록해 영상으로 남겼습니다.
+						정가 공연, 경기민요 공연, 판소리 공연, 튜바 연주를 통해 추모 공연과 버스킹을 진행하였습니다.
 						</p>
 
 						<div class="people-frame" aria-live="polite">
@@ -251,60 +251,51 @@
 			/* ====== 데이터 (작품 3개 고정: 4:3 하나 + 1:1 두 개) ====== */
 			const people = [
 				{
-				name: "김유경", meta: "미디어커뮤니케이션학과, 콘텐츠기획, 게임인터렉티브미디어 복수전공",
-				drive: "https://drive.google.com/drive/folders/15PPBUeL0qCY89ugtikDdYuufPDZ2GeCF?usp=drive_link",
+				name: "김강민", meta: "관현악 전공",
+				drive: "https://drive.google.com/drive/folders/1sVqxnOz3FcaXuPnuH0hG9ba6DQsBkg4-?usp=drive_link",
 				works: [
-					{ kind: "youtube", id: "sKrAKRFXJPo?si=djqOHWmNIT1D4TWN" }, // 4:3
-					{ kind: "image", src: "images/공연영_1_김유경_2.png" }, // 1:1(위)
-					{ kind: "image", src: "images/공연영_1_김유경_3.png" }  // 1:1(아래)
+					{ kind: "img", src: "images/메인사진.jpg" }, // 4:3
+					{ kind: "image", src: "images/김강민사진1.png" }, // 1:1(위)
+					{ kind: "image", src: "images/김강민사진2.jpg" }  // 1:1(아래)
 				],
 				lines: [ /*10줄까지 쓸 수 있음*/
-					"바람에 스민 이름들,",
-					"마음으로 부르는 위로의 노래"
+					"공연팀 기획, 리더를 맡으며",
+					"합창 지도 및 지휘,",
+					"간단한 유포니움 솔로를 준비하여",
+					"음악이라는 매개체로",
+					"추모와 평화의 뜻을",
+					"전달하고자 하였습니다",
 				],
-				desc: "추모공연, 원폭희생자추모, 기억과화해"
+				desc: "음악이란, 만국의언어"
 				},
 				{
-				name: "송상현", meta: "사진학과, 철학과 복수전공",
-				drive: "https://drive.google.com/drive/folders/1FjV6QNYle5cubVSzkt4wCP-lfR0TQy5P?usp=drive_link",
+				name: "김보미", meta: "전통예술학부 연희예술전공",
+				drive: "https://drive.google.com/drive/folders/11-EaS3cY6JnryZerAdpS_pMBGXcEB3XF?usp=drive_link",
 				works: [
 					{ kind: "youtube", id: "hxd1Bx1cUzE?si=P1--5MMNmToxXZic" }, // 4:3
 					{ kind: "image", src: "images/공연영_3_송상현_2.jpg" }, // 1:1(위)
 					{ kind: "image", src: "images/공연영_3_송상현_3.jpg" }  // 1:1(아래)
 				],
 				lines: [ /*10줄까지 쓸 수 있음*/
-					"폐쇄된 다카시마 조선인 공양탑",
-					"앞에서 진행한 윤서빈의", "<가시리> 공연에,",
-					"기무라 활동가의 발언과 ",
-					"학생들의 시선을 교차시켜","잊힌 존재들을 호명한다."
+					"기억으로 잊지 않고, ",
+					"마음으로 잇는 노래.",
 				],
-				desc: "조선인공양탑, 강제징용, 잊혀진존재, 가시리"
+				desc: "경기민요, 이별가, 상사화"
 				},
 				{
-				name: "박주은", meta: "음악학부 관현악 전공",
-				drive: "https://drive.google.com/drive/folders/1U0DDNXV40gIXrF4KfN6vuCrPV_3m4OEB?usp=sharing",
+				name: "양현태", meta: "전통예술학부 판소리 전공",
+				drive: "https://drive.google.com/drive/folders/1d1hCOZxC6wLJbN60-9V4EmMZFceGNztF?usp=drive_link",
 				works: [
-					{ kind: "image", src: "images/공연영_2_박주은_1.jpeg" },
-					{ kind: "image", src: "images/공연영_2_박주은_2.jpeg" },
-					{ kind: "image", src: "images/공연영_2_박주은_3.jpeg" }
+					{ kind: "image", src: "images/1768876554805.jpg" },
+					{ kind: "image", src: "images/1768876554677.jpg" },
+					{ kind: "image", src: "images/1768876554396.jpg" }
 				],
-				lines: ["‘천개의 바람’과", "‘고향의 봄’을 연주하며","이별과 그리움,"," 고향의 기억을 나누고","한일의 상처를 위로하며","평화와 치유의 메시지를 전한 무대"],
-				desc: "첼로, 평화의메세지"
-				},
-				{
-				name: "윤서빈", meta: "국악전공",
-				drive: "https://drive.google.com/drive/folders/165FEd7MeHvaKYobHppEb5E1l5VULk5ir?usp=drive_link",
-				works: [
-					{ kind: "image", src: "images/공연영_4_윤서빈_1.jpg" }, // 4:3
-					{ kind: "image", src: "images/공연영_4_윤서빈_2.jpg" }, // 1:1(위)
-					{ kind: "image", src: "images/공연영_4_윤서빈_3.jpg" }  // 1:1(아래)
+				lines: [
+					"시인의 거울 앞에 마주 서서",
+					"소리로 풀어내는 참회의 기록,",
+					"그 깊은 고백이 노래가 되기까지.",
 				],
-				lines: [ /*10줄까지 쓸 수 있음*/
-					"우리네 바른 노래, 정가가",
-					"역사를 담아 상처를 치유하는",
-					"노래가 되었기를 바랍니다.",
-				],
-				desc: "정가, 가시리, 아름다운나라"
+				desc: "릿쿄대학교, 윤동주, 참회록, 창작국악"
 				}
 			];
 
