@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko">
+	<head>
+		<title>워크숍: 사진 기록팀</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+		<style>
+		:root{--ink:#1b1b1b;--muted:#666;--line:#e6e6e6;--card:#fafafa}
+
+		.archive-intro{margin:6px 0 18px;color:var(--muted);line-height:1.6;font-size:14px}
+		.archive-intro a{color:var(--muted);text-decoration:underline}
+
+		/* 큰 박스: [←] [콘텐츠] [→] + 상단 이름 + 하단 바 + 설명 */
+		.people-frame{
+			display:grid;
+			grid-template-columns: 72px 1fr 72px; /* 좌/우 화살표 전용 칼럼(겹침 방지) */
+			grid-template-rows: auto auto auto auto; /* 이름, 콘텐츠, 하단바, 설명 */
+			gap:14px 16px;
+			border:1px solid var(--line); border-radius:16px;
+			padding:16px 16px 18px; background:#fff; min-height:520px;
+		}
+
+		/* 상단 이름 */
+		.person-head {
+		grid-column: 2;
+		grid-row: 1;
+		margin: 0;
+		font-weight: 700;
+		color: #222;
+		}
+
+		.person-head .name {
+		font-size: 30px; /* 이름 크게 */
+		}
+
+		.person-head .meta {
+		font-size: 16px; /* 학과/나이 작게 */
+		font-weight: normal;
+		color: #666;
+		}
+
+		/* 좌/우 화살표(작게) — Y축 박스 가운데 고정 */
+		.arrow {
+		grid-row: 2; /* 콘텐츠 영역에 위치 고정 */
+		align-self: center;
+		width: 64px;
+		height: 64px;
+		border-radius: 9999px;
+		border: 1.5px solid #393939;
+		background: #bfe5e6;
+		display: grid;
+		place-items: center;
+		justify-self: center;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+		cursor: pointer;
+		transition: transform .08s ease, background .15s ease;
+		}
+
+		.arrow:hover{background:#88b1b3;transform:translateX(1px)}
+		.arrow svg{flex:0 0 auto; width:24px; height:24px; stroke:#3f3f3f; transform: translateX(-7.5px); }
+
+		/* 가운데 콘텐츠(작품 3개 + 오른쪽 텍스트) */
+		.content{grid-column:2; grid-row:2;
+			display:grid;
+			grid-template-columns: 2.7fr 1fr 1.4fr; /* 4:3 1장 | 정사각 2장 | 설명 */
+			grid-template-rows: 1fr 1fr;
+			gap:16px;
+		}
+		/* 비율 고정 */
+		.ratio-43{aspect-ratio:4/3}
+		.ratio-11{aspect-ratio:1/1}
+
+		/* 카드 */
+		.card{
+			background:var(--card); border:1px solid var(--line); border-radius:10px;
+			overflow:hidden; display:flex; align-items:center; justify-content:center;
+		}
+		.card img,.card video{width:100%;height:100%;object-fit:cover;display:block}
+		.card iframe{width:100%;height:100%;border:0;display:block}
+
+		/* 위치 매핑 */
+		#cardA{grid-column:1; grid-row:1 / span 2;} /* 큰 4:3 */
+		#cardB{grid-column:2; grid-row:1;}           /* 정사각 위 */
+		#cardC{grid-column:2; grid-row:2;}           /* 정사각 아래 */
+
+		/* 오른쪽 설명 줄 */
+		/* (혹시 빠졌을 수 있어 다시 명시) 오른쪽 텍스트 영역과 밑줄 스타일 */
+		.textlines{
+		grid-column:3;           /* .content 그리드의 3번째 열 */
+		grid-row:1 / span 2;     /* 위/아래 두 행 전체 사용 */
+		display:grid;
+		gap:14px;
+		align-content:start;
+		}
+		.uline{
+		border-bottom:2px solid #222;
+		padding-bottom:8px;
+		min-height:22px;         /* 내용 없어도 밑줄 보이게 */
+		line-height:1.4;
+		font-size:15px;
+		color:#222;
+		text-align:left;
+		}
+
+		/* 하단 바(큰 박스 안쪽) : [이름/페이지] [도트] [드라이브 링크] */
+		.lowerbar{
+			grid-column:2; grid-row:3;
+			display:grid; grid-template-columns: 1fr auto 1fr; align-items:center;
+			padding-top:4px; color:#5a5a5a; font-size:14px;
+		}
+		.who{justify-self:start}
+		.dots{display:flex;gap:6px;justify-self:center}
+		.dot{width:7px;height:7px;border-radius:50%;background:#cfcfcf}
+		.dot.active{background:#404040}
+		.drive-link{justify-self:end}
+		.drive-link a{color:#444;text-decoration:underline;word-break:break-all}
+
+		/* 설명 본문(큰 박스 안쪽) */
+		.desc{grid-column:2; grid-row:4; font-size:13px; color:#7a7a7a}
+
+		/* 반응형 */
+		@media (max-width:960px){
+			.content{grid-template-columns: 2.4fr 1fr 1.2fr}
+		}
+		@media (max-width:720px){
+			.people-frame{grid-template-columns:1fr; grid-template-rows:auto auto auto auto auto; gap:12px}
+			.person-head{grid-column:1}
+			.content{grid-column:1; grid-template-columns:1fr; grid-template-rows:auto auto auto auto; gap:12px}
+			#cardA,#cardB,#cardC{grid-column:1; grid-row:auto}
+			.textlines{grid-column:1; grid-row:auto}
+			.lowerbar{grid-column:1}
+			.desc{grid-column:1}
+			/* 화살표는 아래로 */
+			#prevBtn,#nextBtn{grid-column:1; width:56px;height:56px}
+			#prevBtn{grid-row:5; justify-self:start}
+			#nextBtn{grid-row:5; justify-self:end}
+		}
+		</style>
+	</head>
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+
+					<!-- Logo -->
+						<h1><a href="index.html">Team. Photo Archive</a></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
+								<li><a href="mediaTeam.html">공연 팀</a></li>
+								<li><a href="pictureTeam.html">사진 팀</a></li>
+								<li class="current"><a href="vedioTeam.html">영상 팀</a></li>
+								<li><a href="designTeam.html">디자인 팀</a></li>
+								<li><a href="webTeam.html">통역 및 웹진 팀</a></li>
+								<li><a href="https://ong09148.wixsite.com/website/news">웹진 및 뉴스</a></li>
+								<li><a href="introduce_people.html">참가자 소개</a></li>
+							</ul>
+						</nav>
+
+
+				</section>
+
+			<!-- Main -->
+				<section id="main" style="padding-bottom: 30px">
+					<div class="container">
+						<br>
+						<h2>사진 기록 팀 아카이브</h2>
+
+						<p class="archive-intro" style="margin-bottom: 20px;">
+						워크숍 일정 전반을 사진으로 기록하고 순간들에 의미를 부여해 전시했습니다.
+						</p>
+
+						<div class="people-frame" aria-live="polite">
+						<!-- 상단 이름 -->
+						<h3 class="person-head" id="personHead" style="margin: 20px 0;"></h3>
+
+						<!-- 좌/우 화살표 (작게) -->
+						<button class="arrow" id="prevBtn" aria-label="이전 사람">
+							<svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 5L4 12l7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						</button>
+
+						<!-- 콘텐츠: 4:3 하나 + 1:1 두 개 + 설명줄 -->
+						<div class="content">
+							<div class="card ratio-43" id="cardA"></div>
+							<div class="card ratio-11" id="cardB"></div>
+							<div class="card ratio-11" id="cardC"></div>
+							<div class="textlines" id="textLines"></div>
+						</div>
+
+						<button class="arrow" id="nextBtn" aria-label="다음 사람">
+							<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						</button>
+
+						<!-- 큰 박스 안쪽 하단 바 -->
+						<div class="lowerbar">
+							<div class="who" id="who"></div>
+							<div class="dots" id="dots"></div>
+							<div class="drive-link">세부 결과물 링크: <a id="driveLink" href="#" target="_blank" rel="noopener">링크 열기</a></div>
+						</div>
+
+						<!-- 큰 박스 안쪽 설명 본문 -->
+						<div class="desc" id="desc"></div>
+						</div>
+
+						<br>
+					</div>	
+				</section>
+
+		</div>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.dropotron.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+		<script>
+			/* ====== 데이터 (작품 3개 고정: 4:3 하나 + 1:1 두 개) ====== */
+			const people = [
+				{
+				name: "이종수", meta: "사진학과, 미디어커뮤니케이션학과 복수전공",
+				drive: "https://drive.google.com/drive/folders/1WPqWOXj_ljfOFejBQy7KntC0dVzyVvkw?usp=drive_link",
+				works: [
+					{ kind: "image", src: "images/사진기_2_이종수_1.jpg" }, // 4:3
+					{ kind: "image", src: "images/사진기_2_이종수_2.jpg" }, // 1:1(위)
+					{ kind: "image", src: "images/사진기_2_이종수_3.jpg" }  // 1:1(아래)
+				],
+				lines: [ /*10줄까지 쓸 수 있음*/
+					"다카시마의 현재를 통해,",
+					"침묵 속에 묻힌",
+					"조선인 강제징용의 흔적을 바라보다."
+				],
+				desc: "부재의_풍경들"
+				},
+				{
+				name: "전대현", meta: "사진학과",
+				drive: "https://drive.google.com/drive/folders/1YcHowsNSPggxupqYNxymOJAcAX_Yg1JO?usp=drive_link",
+				works: [
+					{ kind: "image", src: "images/사진기_3_전대현_1.png" },
+					{ kind: "image", src: "images/사진기_3_전대현_2.jpg" },
+					{ kind: "image", src: "images/사진기_3_전대현_3.jpg" }
+				],
+				lines: ["이번 일정의 사진 기록 담당으로서"," 저는 사람에게 집중했습니다.","처음 떠난 길에서 만난 사람들.", "그들과 나누었던 생명과", "평화에 대한 언어들.",
+					"그것을 기억하기 위한 사진입니다."],
+				desc: "초상화, 사람, 관계, 소통, 사랑, 평화"
+				},
+				{
+				name: "김나연", meta: "미디어커뮤니케이션학과, 25",
+				drive: "https://drive.google.com/drive/folders/19unn_qhSfw7pkF3z0roggAyaQ_LHf6ku?usp=drive_link",
+				works: [
+					{ kind: "image", src: "images/pic_1_1.png" },
+					{ kind: "image", src: "images/pic_1_2.png" },
+					{ kind: "image", src: "images/pic_1_3.png" }
+				],
+				lines: ["활자 하나가 문이 된다","그 너머엔 사람과 사건,","그리고 꺼지지 않는"," 그날의 숨결과 울음이 있다."],
+				desc: "기억은 남고, 남은 기억이 우리를 움직인다."
+				},
+				{name: "채우진", meta: "식품공학과, 창업학과 융합전공",
+				drive: "https://drive.google.com/drive/folders/1vKhm_VtUTL5_U0gM1RmdrAJJtKw1BVV3?usp=drive_link",
+				works: [
+					{ kind: "youtube", id: "ct9fwNjXNKI?si=MrV3ADDjVkL3Dsc8" },
+					{ kind: "image", src: "images/사진기_4_채우진_3.jpg" },
+					{ kind: "image", src: "images/사진기_4_채우진_4.png" }
+				],
+				lines: ["9일의 여정을 아카이빙한 영상입니다.","흘러가도 사라지지 않을 순간들에", "기억과 경험을 담아", "조용한 한 편의 기록으로", "단정히 묶었습니다."],
+				desc: "아카이빙, 맥락, 경험"
+				}
+			];
+
+			/* ====== 요소 ====== */
+			const headEl  = document.getElementById('personHead');
+			const whoEl   = document.getElementById('who');
+			const dotsEl  = document.getElementById('dots');
+			const descEl  = document.getElementById('desc');
+			const driveEl = document.getElementById('driveLink');
+			const textBox = document.getElementById('textLines');
+			const cardA   = document.getElementById('cardA');
+			const cardB   = document.getElementById('cardB');
+			const cardC   = document.getElementById('cardC');
+
+			const prevBtn = document.getElementById('prevBtn');
+			const nextBtn = document.getElementById('nextBtn');
+
+
+
+			function buildDots(active=0){
+				dotsEl.innerHTML = "";
+				people.forEach((_, idx)=>{
+				const d=document.createElement('div');
+				d.className = 'dot' + (idx===active ? ' active' : '');
+				d.addEventListener('click', ()=>go(idx));
+				dotsEl.appendChild(d);
+				});
+			}
+
+			function buildTextLines(lines = []) {
+			textBox.innerHTML = "";
+			const list = lines.length ? lines : Array(15).fill("");  // 기본 15줄
+			list.slice(0, 15).forEach(t => {
+				const div = document.createElement('div');
+				div.className = "uline";
+				div.textContent = t;  // 빈 문자열이면 밑줄만 보임
+				textBox.appendChild(div);
+			});
+			}
+
+			/* ====== 렌더 유틸 ====== 
+			function put(item, target){
+				target.innerHTML = "";
+				if(!item){ target.appendChild(document.createElement('div')); return; }
+				if(item.type === "video"){
+				const v=document.createElement('video'); v.src=item.src; v.controls=true; v.playsInline=true;
+				target.appendChild(v);
+				}else{
+				const img=new Image(); img.src=item.src; target.appendChild(img);
+				}
+			}*/
+
+			function put(item, target){
+				target.innerHTML = "";
+				if(!item) return;
+
+				if(item.kind === "youtube"){
+					const iframe = document.createElement("iframe");
+					iframe.src = `https://www.youtube.com/embed/${item.id}`;
+					iframe.title = "YouTube video player";
+					iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+					iframe.referrerPolicy = "strict-origin-when-cross-origin";
+					iframe.allowFullscreen = true;
+					target.appendChild(iframe);
+					return;
+				}
+
+				// image
+				const img = new Image();
+				img.src = item.src;
+				img.alt = "";
+				target.appendChild(img);
+			}
+
+			/* ====== 상태/렌더 ====== */
+			let cur=0;
+
+			function render(){
+				const p = people[cur];
+				headEl.innerHTML = `<span class="name">${p.name}</span> <span class="meta">(${p.meta || ""})</span>`;
+				whoEl.textContent  = `${p.name} — ${cur+1} / ${people.length}`;
+				descEl.textContent = p.desc || "";
+				if(p.drive) driveEl.href = p.drive;
+
+				// 작품 3개 매핑
+				const list = (p.works||[]).slice(0,3);
+				put(list[0], cardA); // 4:3
+				put(list[1], cardB); // 1:1 위
+				put(list[2], cardC); // 1:1 아래
+
+				buildTextLines(p.lines || []);
+				[...dotsEl.children].forEach((d,i)=>d.classList.toggle('active', i===cur));
+			}
+
+			function go(n){
+				cur = (n + people.length) % people.length; // 무한 순환
+				render();
+			}
+
+			/* ====== 이벤트 ====== */
+			prevBtn.addEventListener('click', ()=>go(cur-1));
+			nextBtn.addEventListener('click', ()=>go(cur+1));
+			window.addEventListener('keydown', e=>{
+				if(e.key === 'ArrowLeft')  go(cur-1);
+				if(e.key === 'ArrowRight') go(cur+1);
+			});
+
+			/* 초기화 */
+			buildDots(0);
+			render();
+		</script>
+
+		<!-- Scripts -->
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var navPanel = document.getElementById('navPanel');
+				var titleBar = document.getElementById('titleBar');
+				if (navPanel) navPanel.remove();
+				if (titleBar) titleBar.remove();
+			});
+			var observer = new MutationObserver(function(mutations) {
+				mutations.forEach(function(mutation) {
+					if (mutation.addedNodes.length) {
+						mutation.addedNodes.forEach(function(node) {
+							if (node.id === 'navPanel' || node.id === 'titleBar') {
+								node.remove();
+							}
+						});
+					}
+				});
+			});
+			observer.observe(document.body, { childList: true });
+		</script>
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.dropotron.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

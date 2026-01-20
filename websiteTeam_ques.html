@@ -19,23 +19,18 @@
 
 					<!-- Logo -->
 						<h1><a href="index.html">4 peace</a></h1>
-
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
-								<li><a href="index.html">Home</a></li>
+								<li class="current"><a href="index.html">Home</a></li>
 								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
-								<li><a href="mediaTeam.html">공연 및 영상 팀</a></li>
-								<li><a href="pictureTeam.html">사진 기록 팀</a></li>
+								<li><a href="mediaTeam.html">공연 팀</a></li>
+								<li><a href="pictureTeam.html">사진 팀</a></li>
+								<li><a href="vedioTeam.html">영상 팀</a></li>
 								<li><a href="designTeam.html">디자인 팀</a></li>
-								<li class="current"><a href="websiteTeam_Intro.html">웹마스터 팀</a></li>
-								<li>
-									<a href="https://jiyoon6735.wixsite.com/20peaceandfuture25">웹자보</a>
-									<ul>
-										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/%EC%9D%BC%EC%A0%95">일정</a></li>
-										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/about-1">참가자 소개</a></li>
-									</ul>
-								</li>
+								<li><a href="webTeam.html">통역 및 웹진 팀</a></li>
+								<li><a href="https://ong09148.wixsite.com/website/news">웹진 및 뉴스</a></li>
+								<li><a href="introduce_people.html">참가자 소개</a></li>
 							</ul>
 						</nav>
 
@@ -69,7 +64,26 @@
 		</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var navPanel = document.getElementById('navPanel');
+				var titleBar = document.getElementById('titleBar');
+				if (navPanel) navPanel.remove();
+				if (titleBar) titleBar.remove();
+			});
+			var observer = new MutationObserver(function(mutations) {
+				mutations.forEach(function(mutation) {
+					if (mutation.addedNodes.length) {
+						mutation.addedNodes.forEach(function(node) {
+							if (node.id === 'navPanel' || node.id === 'titleBar') {
+								node.remove();
+							}
+						});
+					}
+				});
+			});
+			observer.observe(document.body, { childList: true });
+		</script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>

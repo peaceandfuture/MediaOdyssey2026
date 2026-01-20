@@ -54,16 +54,16 @@
 		height: 64px;
 		border-radius: 9999px;
 		border: 1.5px solid #393939;
-		background: #9a9a9a;
+		background: #bfe5e6;
 		display: grid;
 		place-items: center;
 		justify-self: center;
-		box-shadow: 0 2px 4px rgba(0,0,0,.06);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 		cursor: pointer;
 		transition: transform .08s ease, background .15s ease;
 		}
 
-		.arrow:hover{background:#141414;transform:translateX(1px)}
+		.arrow:hover{background:#88b1b3;transform:translateX(1px)}
 		.arrow svg{flex:0 0 auto; width:24px; height:24px; stroke:#3f3f3f; transform: translateX(-7.5px); }
 
 		/* 가운데 콘텐츠(작품 3개 + 오른쪽 텍스트) */
@@ -106,6 +106,7 @@
 		line-height:1.4;
 		font-size:15px;
 		color:#222;
+		text-align:left;
 		}
 
 		/* 하단 바(큰 박스 안쪽) : [이름/페이지] [도트] [드라이브 링크] */
@@ -158,17 +159,13 @@
 							<ul>
 								<li><a href="index.html">Home</a></li>
 								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
-								<li><a href="mediaTeam.html">공연 및 영상 팀</a></li>
-								<li><a href="pictureTeam.html">사진 기록 팀</a></li>
+								<li><a href="mediaTeam.html">공연 팀</a></li>
+								<li><a href="pictureTeam.html">사진 팀</a></li>
+								<li><a href="vedioTeam.html">영상 팀</a></li>
 								<li class="current"><a href="designTeam.html">디자인 팀</a></li>
-								<li><a href="websiteTeam_Intro.html">웹마스터 팀</a></li>
-								<li>
-									<a href="https://jiyoon6735.wixsite.com/20peaceandfuture25">웹자보</a>
-									<ul>
-										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/%EC%9D%BC%EC%A0%95">일정</a></li>
-										<li><a href="https://jiyoon6735.wixsite.com/20peaceandfuture25/about-1">참가자 소개</a></li>
-									</ul>
-								</li>
+								<li><a href="webTeam.html">통역 및 웹진 팀</a></li>
+								<li><a href="https://ong09148.wixsite.com/website/news">웹진 및 뉴스</a></li>
+								<li><a href="introduce_people.html">참가자 소개</a></li>
 							</ul>
 						</nav>
 
@@ -224,6 +221,26 @@
 		</div>
 
 		<!-- Scripts -->
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var navPanel = document.getElementById('navPanel');
+				var titleBar = document.getElementById('titleBar');
+				if (navPanel) navPanel.remove();
+				if (titleBar) titleBar.remove();
+			});
+			var observer = new MutationObserver(function(mutations) {
+				mutations.forEach(function(mutation) {
+					if (mutation.addedNodes.length) {
+						mutation.addedNodes.forEach(function(node) {
+							if (node.id === 'navPanel' || node.id === 'titleBar') {
+								node.remove();
+							}
+						});
+					}
+				});
+			});
+			observer.observe(document.body, { childList: true });
+		</script>
 		<script src="assets/js/jquery.min.js"></script>
 		<script src="assets/js/jquery.dropotron.min.js"></script>
 		<script src="assets/js/browser.min.js"></script>
@@ -235,18 +252,22 @@
 			/* ====== 데이터 (작품 3개 고정: 4:3 하나 + 1:1 두 개) ====== */
 			const people = [
 				{
-				name: "이어진", meta: "사회학과, 미디어커뮤니케이션학과 복수전공",
+				name: "김동혁", meta: "서양화 전공",
 				drive: "https://drive.google.com/drive/folders/1WgEbHaaAJAkj8S5nfIyHRxO3T3UBEOAK?usp=drive_link",
 				works: [
-					{ kind: "image", src: "images/디자인_1_이어진_1.png" }, // 4:3
-					{ kind: "image", src: "images/디자인_1_이어진_2.jpg" }, // 1:1(위)
-					{ kind: "image", src: "images/디자인_1_이어진_3(수정본).png" }  // 1:1(아래)
+					{ kind: "image", src: "images/IMG_9334.jpg" }, // 4:3
+					{ kind: "image", src: "images/KakaoTalk_20260118_212655128_02.jpg" }, // 1:1(위)
+					{ kind: "image", src: "images/KakaoTalk_20260118_212655128_01.jpg" }  // 1:1(아래)
 				],
 				lines: [ /*10줄까지 쓸 수 있음*/
-					"80년간 이어진",
-					"모든 생명의 이야기"
+					"연수 과정에서 얻은 영감을",
+					"회화로 풀어내고,",
+					"추모와 기록이 공존하는",
+					"전시를 기획한다.",
+					"사라진 이들을 향한 추모와",
+					"평화의 염원을 예술에 담는다",
 				],
-				desc: "기억, 평화, 생명"
+				desc: "추모, 전시, 염원"
 				},
 				{
 				name: "이참비", meta: "한국화 전공, 미디어커뮤니케이션학과 복수전공",
