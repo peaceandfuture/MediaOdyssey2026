@@ -15,11 +15,191 @@
 	<link rel="icon" type="image/png" sizes="36x36" href="/images/icon3232.png">
     <link rel="stylesheet" href="assets/css/main.css" />
 	<style>
+
 		/* 위 1px 잘라내기 */
 		#main .image.featured.fixline img{
 		clip-path: inset(3px 0 0 1px); /* top right bottom left */
 		}
 	</style>
+
+	<style>
+/* ===== Mobile Hamburger (Head-embedded) ===== */
+
+/* 모바일에서 원래 상단 nav는 숨기고, 햄버거로 대체 */
+@media (max-width: 980px){
+  #nav { display: none !important; }
+}
+
+/* 햄버거 바 */
+#myTitleBar{
+  display:none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  z-index: 20000;
+  background: rgba(245, 207, 204, 0.98);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* 햄버거 버튼 */
+#myHamburger{
+  position:absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+/* 타이틀 */
+#myTitleText{
+  position:absolute;
+  left: 52px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 모바일에서만 노출 */
+@media (max-width: 980px){
+  #myTitleBar{ display:block; }
+  /* 상단바가 콘텐츠 가리는 것 방지 */
+  body{ padding-top: 52px; }
+}
+
+/* 오프캔버스 패널 */
+#myNavPanel{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  z-index: 19999;
+  background: #fff;
+  transform: translateX(-105%);
+  transition: transform 220ms ease;
+  box-shadow: 2px 0 18px rgba(0,0,0,0.15);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 64px 16px 16px;
+}
+
+/* 배경 오버레이 */
+#myNavOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 19998;
+  background: rgba(0,0,0,0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+/* 열렸을 때 */
+body.myNavOpen #myNavPanel{ transform: translateX(0); }
+body.myNavOpen #myNavOverlay{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 패널 내부 링크 스타일 */
+#myNavPanel ul{ list-style:none; margin:0; padding:0; }
+#myNavPanel li{ border-top: 1px solid rgba(0,0,0,0.06); }
+#myNavPanel a{
+  display:block;
+  padding: 12px 10px;
+  color:#333;
+  text-decoration:none;
+}
+#myNavPanel a:active{ background: rgba(0,0,0,0.04); }
+
+/* 데스크톱에서는 아예 존재해도 보이지 않게 */
+@media (min-width: 981px){
+  #myTitleBar, #myNavPanel, #myNavOverlay{ display:none !important; }
+  body{ padding-top: 0; }
+}
+</style>
+
+<script>
+/* ===== Mobile Hamburger (Head-embedded) ===== */
+document.addEventListener('DOMContentLoaded', function () {
+  // 이미 만들어져 있으면 중복 생성 방지
+  if (document.getElementById('myTitleBar')) return;
+
+  var nav = document.getElementById('nav');
+  if (!nav) return;
+
+  // #nav 안의 첫 ul을 복제해서 패널로 사용
+  var ul = nav.querySelector('ul');
+  if (!ul) return;
+
+  // Title bar
+  var titleBar = document.createElement('div');
+  titleBar.id = 'myTitleBar';
+
+  var btn = document.createElement('button');
+  btn.id = 'myHamburger';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Open menu');
+  btn.textContent = '☰';
+
+  var title = document.createElement('div');
+  title.id = 'myTitleText';
+  // 로고 텍스트가 있으면 그걸 사용, 없으면 문서 타이틀
+  var logo = document.querySelector('#header h1 a');
+  title.textContent = logo ? logo.textContent.trim() : document.title;
+
+  titleBar.appendChild(btn);
+  titleBar.appendChild(title);
+
+  // Panel + Overlay
+  var overlay = document.createElement('div');
+  overlay.id = 'myNavOverlay';
+
+  var panel = document.createElement('nav');
+  panel.id = 'myNavPanel';
+
+  var cloned = ul.cloneNode(true);
+  panel.appendChild(cloned);
+
+  document.body.appendChild(titleBar);
+  document.body.appendChild(overlay);
+  document.body.appendChild(panel);
+
+  function openNav(){ document.body.classList.add('myNavOpen'); }
+  function closeNav(){ document.body.classList.remove('myNavOpen'); }
+  function toggleNav(){
+    document.body.classList.contains('myNavOpen') ? closeNav() : openNav();
+  }
+
+  btn.addEventListener('click', toggleNav);
+  overlay.addEventListener('click', closeNav);
+
+  // 패널 안 링크 클릭하면 닫기
+  panel.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if (a) closeNav();
+  });
+
+  // ESC로 닫기
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeNav();
+  });
+});
+</script>
+
 
 	</head>
 	<body class="homepage is-preload">
@@ -35,12 +215,17 @@
 						<nav id="nav">
 							<ul>
 								<li class="current"><a href="index.html">Home</a></li>
-								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
+								<li><a href="introduce.html">프로그램 소개</a>
+									<ul>
+										<li><a href="introduce.html">프로그램 소개</a></li>
+										<li><a href="https://peaceandfuture.github.io/">2025 하계연수 소개</a></li>
+									</ul> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
+								</li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
 								<li><a href="mediaTeam.html">공연 팀</a></li>
 								<li><a href="pictureTeam.html">사진 팀</a></li>
 								<li><a href="vedioTeam.html">영상 팀</a></li>
 								<li><a href="designTeam.html">디자인 팀</a></li>
-								<li><a href="webTeam.html">통역 및 웹진 팀</a></li>
+								<li><a href="webTeam.html">취재 및 통역 팀</a></li>
 								<li><a href="https://ong09148.wixsite.com/website/news">웹진 및 뉴스</a></li>
 								<li><a href="introduce_people.html">참가자 소개</a></li>
 							</ul>
@@ -70,11 +255,11 @@
 										<div class="row">
 											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured"><img src="images/team_per.jpg" alt="" /></a><header><h3>공연 팀</h3></header><p>정가 공연, 경기민요 공연, <br>판소리 공연, 튜바 연주를 <br>통해 추모 공연과 버스킹을 <br>진행하였습니다.</p><footer><ul class="actions"><li><a href="mediaTeam.html" class="button alt">Find out more</a></li></ul></footer></section></div>
 											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured fixline"><img src="images/team_pic.jpg" alt=""/></a><header><h3>사진 팀</h3></header><p>워크숍 일정 전반을 <br>사진으로 기록하고<br> 찰나의 순간을 포착해<br> 기록했습니다.</p><footer><ul class="actions"><li><a href="pictureTeam.html" class="button alt">Find out more</a></li></ul></footer></section></div>
-											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured fixline"><img src="images/team_ent.jpg" alt="" /></a><header><h3>영상 팀</h3></header><p>연수 기간 동안 진행된 <br>6차례의 공연을 <br>정성껏 기록해 <br>이를 영상으로 남겼습니다.</p><footer><ul class="actions"><li><a href="designTeam.html" class="button alt">Find out more</a></li></ul></footer></section></div>
+											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured fixline"><img src="images/team_ent.jpg" alt="" /></a><header><h3>영상 팀</h3></header><p>연수 기간 동안 진행된 <br>6차례의 공연을 <br>정성껏 기록해 <br>이를 영상으로 남겼습니다.</p><footer><ul class="actions"><li><a href="vedioTeam.html" class="button alt">Find out more</a></li></ul></footer></section></div>
 										</div>
 										<div class="row" style="display: flex; justify-content: center; margin-top: 2em;">
-											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured"><img src="images/team_design.jpg" alt="" /></a><header><h3>디자인 팀</h3></header><p>티셔츠, 굿즈, 포스터 등을<br> 디자인하고, <br>연수에서 보고 느낀 것을<br> 그림으로 표현했습니다.</p><footer><ul class="actions"><li><a href="websiteTeam_Intro.html" class="button alt">Find out more</a></li></ul></footer></section></div>
-											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured"><img src="images/team_communi.jpg" alt="" /></a><header><h3>통역 및 웹진 팀</h3></header><p>뉴스레터 발행과 현지 통역을 통해<br> 연수를 기록하고, <br>아카이빙 사이트를 통해 <br>우리의 기억을 갈무리했습니다.</p><footer><ul class="actions"><li><a href="websiteTeam_Intro.html" class="button alt">Find out more</a></li></ul></footer></section></div>
+											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured"><img src="images/team_design.jpg" alt="" /></a><header><h3>디자인 팀</h3></header><p>티셔츠, 굿즈, 포스터 등을<br> 디자인하고, <br>연수에서 보고 느낀 것을<br> 그림으로 표현했습니다.</p><footer><ul class="actions"><li><a href="designTeam.html" class="button alt">Find out more</a></li></ul></footer></section></div>
+											<div class="col-4 col-6-medium col-12-small"><section class="box"><a class="image featured"><img src="images/team_communi.jpg" alt="" /></a><header><h3>통역 및 웹진 팀</h3></header><p>뉴스레터 발행과 현지 통역을 통해<br> 연수를 기록하고, <br>아카이빙 사이트를 통해 <br>우리의 기억을 갈무리했습니다.</p><footer><ul class="actions"><li><a href="webTeam.html" class="button alt">Find out more</a></li></ul></footer></section></div>
 										</div>
 									</section>
 							</div>
@@ -150,34 +335,49 @@
 				</section>
 		</div>
 
-		<!-- Scripts -->
-		<script>
-			// navPanel과 titleBar 생성 방지
-			document.addEventListener('DOMContentLoaded', function() {
-				var navPanel = document.getElementById('navPanel');
-				var titleBar = document.getElementById('titleBar');
-				if (navPanel) navPanel.remove();
-				if (titleBar) titleBar.remove();
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.dropotron.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+			<script>
+			/*
+			Dopetrope mobile nav 안정화 스크립트
+			- navPanel/titleBar 생성은 유지
+			- 데스크톱에서만 표시 안 되게 보정
+			*/
+			document.addEventListener('DOMContentLoaded', function () {
+			function syncMobileNav() {
+				const isMobile = window.matchMedia('(max-width: 736px)').matches;
+				const titleBar = document.getElementById('titleBar');
+				const navPanel = document.getElementById('navPanel');
+
+				if (!titleBar || !navPanel) return;
+
+				if (isMobile) {
+				titleBar.style.display = 'block';
+				navPanel.style.display = 'block';
+				} else {
+				titleBar.style.display = 'none';
+				navPanel.style.display = 'none';
+				}
+			}
+
+			syncMobileNav();
+			window.addEventListener('resize', syncMobileNav);
 			});
-			// DOM 변경 감지하여 navPanel이 추가되면 제거
-			var observer = new MutationObserver(function(mutations) {
-				mutations.forEach(function(mutation) {
-					if (mutation.addedNodes.length) {
-						mutation.addedNodes.forEach(function(node) {
-							if (node.id === 'navPanel' || node.id === 'titleBar') {
-								node.remove();
-							}
-						});
-					}
-				});
-			});
-			observer.observe(document.body, { childList: true });
-		</script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+
+			
+			</script>
+
 
 	</body>
 </html>
+
+document.getElementById('titleBar')
+typeof window.jQuery
+typeof window.breakpoints
+document.getElementById('nav')
+

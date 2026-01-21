@@ -2203,11 +2203,10 @@ input, select, textarea {
 
 	.dropotron {  /*드롭다운 박스*/
 		border-radius: 5px;
-		background-color: #ffffff;
-		background-color: #707070;
+		background-color: rgb(191,229,230,0.6);
 		padding: 1.25em 1.5em 1.25em 1.5em;
 		font-style: italic;
-		box-shadow: 0px 8px 15px 0px #4a4a4a;
+		box-shadow: 0px 8px 15px 0px #a2c1c2;
 		text-align: left;
 		margin-top: -1.25em;
 		margin-left: -1px;
@@ -2215,7 +2214,7 @@ input, select, textarea {
 	}
 
 		.dropotron a, .dropotron span {
-			color: #dadada;
+			color: #525252;
 			text-decoration: none;
 			-moz-transition: color .25s ease-in-out;
 			-webkit-transition: color .25s ease-in-out;
