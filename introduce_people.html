@@ -6,9 +6,10 @@
 -->
 <html lang="ko">
 	<head>
-		<title>워크숍: 프로그램 소개</title>
+		<title>워크숍: 참가자 소개</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" sizes="36x36" href="/images/icon3232.png">
 		<link rel="stylesheet" href="assets/css/main.css" />
 
 		<style>
@@ -78,9 +79,103 @@
 				margin-bottom: 0;
 			}
 
+			/* 참가자 섹션 스타일 */
+			.participants-section {
+				margin-top: 3em;
+				margin-bottom: 3em;
+			}
+
+			.participants-section h2 {
+				text-align: center;
+				margin-bottom: 2em;
+				font-size: 2em;
+			}
+
+			.participants-grid{
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;   /* ✅ 1~4명일 때 가운데 */
+				gap: 2em;
+				margin-bottom: 3em;
+			}
+
+			/* 카드 크기: 5명 기준 그대로 유지 */
+			.participant-card{
+				flex: 0 0 calc((100% - 8em) / 5);
+				/* 8em = gap 2em * (5 - 1) */
+				text-align: center;
+				transition: transform 0.2s ease;
+			}
+
+			.participant-card:hover {
+				transform: translateY(-5px);
+			}
+
+			.participant-image-wrapper{
+			position: relative;
+			width: 100%;
+			aspect-ratio: 4426 / 5632; /* 원본 비율 유지 */
+			border-radius: 8px;
+			overflow: hidden;
+			background: #f0f0f0;
+			}
+
+			.participant-image{
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: center;
+				transition: opacity 0.3s ease;
+			}
+
+			.participant-image.main {
+				z-index: 2;
+			}
+
+			.participant-image.hover {
+				z-index: 1;
+				opacity: 0;
+			}
+
+			.participant-image-wrapper:hover .participant-image.main {
+				opacity: 0;
+			}
+
+			.participant-image-wrapper:hover .participant-image.hover {
+				opacity: 1;
+			}
+
+			.participant-info {
+				margin-top: 1em;
+			}
+
+			.participant-info h3 {
+				margin: 0.5em 0 0.2em 0;
+				font-size: 1.1em;
+				color: #333;
+			}
+
+			.participant-info p {
+				margin: 0;
+				font-size: 0.9em;
+				color: #666;
+				line-height: 1.4;
+			}
+
 			@media screen and (max-width: 768px) {
 				.gallery-item {
 				width: 100%;
+				}
+
+				.participants-grid {
+					grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+					gap: 1.5em;
+				}
+
+				.participants-section h2 {
+					font-size: 1.5em;
 				}
 			}
 			</style>
@@ -93,12 +188,11 @@
 				<section id="header">
 
 					<!-- Logo -->
-						<h1><a href="index.html">평화와 미래</a></h1>
-						
+						<h1><a href="index.html">Media Odyssey</a></h1>
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
-								<li class="current"><a href="index.html">Home</a></li>
+								<li><a href="index.html">Home</a></li>
 								<li><a href="introduce.html">프로그램 소개</a></li> <!--대학 소개, 목표, 워크숍 비전 등을 삽입합니다.-->
 								<li><a href="mediaTeam.html">공연 팀</a></li>
 								<li><a href="pictureTeam.html">사진 팀</a></li>
@@ -106,90 +200,245 @@
 								<li><a href="designTeam.html">디자인 팀</a></li>
 								<li><a href="webTeam.html">통역 및 웹진 팀</a></li>
 								<li><a href="https://ong09148.wixsite.com/website/news">웹진 및 뉴스</a></li>
-								<li><a href="introduce_people.html">참가자 소개</a></li>
+								<li class="current"><a href="introduce_people.html">참가자 소개</a></li>
 							</ul>
 						</nav>
-
-
-				</section>
-
-			<!-- Main -->
-				<section id="main" style="margin-top: 3em;">
-
+					</section>
+				<!-- 참가자 소개 섹션 -->
+				<section id="participants-section" style="margin-top: 1em;">
 					<div class="gallery-container">
-					<div style="text-align: center; margin: 0 auto;"> 
-						<h2>“과거 원폭의 아픔을 두 도시 방문을 통해 역사적으로 기억하고 오사카 엑스포 탐방을 통해 다가올 미래 미디어 혁신 가능성을 탐구함으로써 대한민국 언론의 내일을 함께 설계한다."</h2>
-					</div>
-					<div style="margin-top: 1em;"></div>
+						<div class="participants-section">
+							<h2>참가자 소개</h2>
 
-						<div class="gallery-item">
-							<div class="video-wrapper">
-							<iframe
-								src="https://www.youtube.com/embed/4wmsQkHCe2s?si=ksKqVP3VmwfT4bjU"
-								title="YouTube video player"
-								frameborder="0"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-								referrerpolicy="strict-origin-when-cross-origin"
-								allowfullscreen>
-							</iframe>
+							<!-- 지도자 팀 -->
+							<h3 style="text-align: center; margin-top: 2em; margin-bottom: 1.5em; font-size: 1.3em;">지도 교수님</h3>
+							<div class="participants-grid">
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/교수님/이민규 교수님.jpg" alt="이민규 교수" class="participant-image main">
+										<img src="images/프로필/교수님/이민규 교수님 2.jpg" alt="이민규 교수 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>이민규 교수님</h3>
+										<p>미디어커뮤니케이션학부<br>교수/ 워크샵 지도교수</p>
+									</div>
+								</div>
 							</div>
-						<div class="gallery-text">
-							<p>미디어커뮤니케이션 전공에게 중요한 덕목은 ‘인간에 대한 애정’과 새로운 사회 현상에 대한 ’열정적 관심‘, 그리고 ’스토리텔링 능력‘이라고 축약할 수 있습니다. 이러한 필요성에 따라 중앙대학교에서 본 프로그램이 시작되었습니다. 이 프로그램은 2025년 7월 6일부터 7월 14일까지 일본 나가사키, 히로시마, 오사카 일대에서 평화를 모색하는 ‘역사적 성찰’과 미래 비전을 지향하는 ‘첨단 기술 탐구’라는 두 주제를 중심으로 배우고, 이를 표현합니다.</p>
-						</div>
-					</div>
 
-						<!-- 박스 1 -->
-						<div class="gallery-item">
-							<img src="images/KakaoTalk_20250727_233211243.jpg" alt="나가사키 추모 공연">
-							<div class="gallery-text">
-							<h3>나가사키 추모 공연</h3>
-							<p>원자폭탄 투하 80주년과 한·일수교 60주년을 맞이하여 원폭 피해 도시인 히로시마와 나가사키를 방문했습니다. 이들 도시의 한인 원폭 피해자 위령비에서 일제강점기 강제징용으로 희생된 한인 피해자들을 추모했습니다. 그리고 이 역사적 아픔을 평화와 화해의 메시지로 승화시키고자 노력합니다.</p>
+							<!-- 참가 학생 팀 -->
+							<h3 style="text-align: center; margin-top: 3em; margin-bottom: 1.5em; font-size: 1.3em;">참가 학생 - 공연팀</h3>
+							<div class="participants-grid">
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/공연팀/김강민.png" alt="김강민" class="participant-image main">
+										<img src="images/프로필/공연팀/김강민2.png" alt="김강민 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>김강민</h3>
+										<p>관현악전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/공연팀/윤서빈.png" alt="윤서빈" class="participant-image main">
+										<img src="images/프로필/공연팀/윤서빈2.png" alt="윤서빈 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>윤서빈</h3>
+										<p>국악전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/공연팀/김보미.png" alt="김보미" class="participant-image main">
+										<img src="images/프로필/공연팀/김보미2.jpg" alt="김보미 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>김보미</h3>
+										<p>전통예술학부 <br>연희예술전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/공연팀/양현태.jpg" alt="양현태" class="participant-image main">
+										<img src="images/프로필/공연팀/양현태2.jpg" alt="양현태 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>양현태</h3>
+										<p>전통예술학부<br>판소리전공</p>
+									</div>
+								</div>
 							</div>
-						</div>
 
-						<!-- 박스 2 -->
-						<div class="gallery-item">
-							<img src="images/KakaoTalk_20250727_233211243_01.jpg" alt="나가사키 대학 수업">
-							<div class="gallery-text">
-							<h3>나가사키 대학 수업</h3>
-							<p>80년전 나가사키와 히로시마는 일본 근대화의 출발점이자, 침략의 중심지였으며, 동시에 원폭 피해 도시들로서 복합적이고 모순적인 역사를 간직한 곳입니다. 중앙대학교 학생들은 이 여정을 통해 나가사키와 히로시마의 원폭 현장을 직접 방문하여 전쟁의 참상을 마주하고, 핵확산 방지와 평화 구축을 위한 글로벌 이슈에 대해 현지 대학 교수, 일본 학생 및 피폭자, 시민운동 활동가들과 교류하고 다양한 경험을 했습니다.</p>
+							<!-- 참가 학생 팀 2 -->
+							<h3 style="text-align: center; margin-top: 3em; margin-bottom: 1.5em; font-size: 1.3em;">참가 학생 - 사진팀</h3>
+							<div class="participants-grid">
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/사진팀/송우석.jpg" alt="송우석" class="participant-image main">
+										<img src="images/프로필/사진팀/송우석2.jpg" alt="송우석 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>송우석</h3>
+										<p>사진학과</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/사진팀/임종하.jpg" alt="임종하" class="participant-image main">
+										<img src="images/프로필/사진팀/임종하2.jpg" alt="임종하 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>임종하</h3>
+										<p>미디어커뮤니케이션학부</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/사진팀/홍서영.jpg" alt="홍서영" class="participant-image main">
+										<img src="images/프로필/사진팀/홍서영2.jpg" alt="홍서영 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>홍서영</h3>
+										<p>사진학과</p>
+									</div>
+								</div>
 							</div>
-						</div>
 
-						<!-- 박스 3 -->
-						<div class="gallery-item">
-							<img src="images/KakaoTalk_20250727_233211243_02.jpg" alt="나가사키 웰컴 파티">
-							<div class="gallery-text">
-							<h3>나가사키 웰컴 파티</h3>
-							<p>오늘날 전 세계는 여전히 핵무기의 위협 아래 놓여 있으며, 특히 한국은 북한의 핵 위협이라는 현실과 마주하고 있다. 본 프로그램을 통해 참가 학생들이 이러한 갈등 해소, 상호 이해와 화합의 중요성을 충분히 이해할 수 있기를 기대한다. 이를 통해 한·일 양국 간의 현실적 문제를 인식하고, 미래 세대로서 상호 이해와 평화적 협력의 가치를 실천하는 데 필요한 국제적 공감 능력을 배양하는 것을 목표로 한다.</p>
+							<!-- 참가 학생 팀 3 -->
+							<h3 style="text-align: center; margin-top: 3em; margin-bottom: 1.5em; font-size: 1.3em;">참가 학생 - 영상팀</h3>
+							<div class="participants-grid">
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/영상팀/김다영.jpg" alt="김다영" class="participant-image main">
+										<img src="images/프로필/영상팀/김다영2.jpg" alt="김다영 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>김다영</h3>
+										<p>미디어커뮤니케이션학부</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/영상팀/백가연.jpg" alt="백가연" class="participant-image main">
+										<img src="images/프로필/영상팀/백가연2.jpg" alt="백가연 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>백가연</h3>
+										<p>미디어커뮤니케이션학부</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/영상팀/이상경.jpg" alt="이상경" class="participant-image main">
+										<img src="images/프로필/영상팀/이상경2.jpg" alt="이상경 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>이상경</h3>
+										<p>미디어커뮤니케이션학부</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/영상팀/이상경.jpg" alt="이상경" class="participant-image main">
+										<img src="images/프로필/영상팀/이상경2.jpg" alt="이상경 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>이상경</h3>
+										<p>미디어커뮤니케이션학부</p>
+									</div>
+								</div>
 							</div>
-						</div>
 
-						<!-- 박스 4 -->
-						<div class="gallery-item">
-							<img src="images/KakaoTalk_20250727_233211243_03.jpg" alt="오사카 엑스포 탐방">
-							<div class="gallery-text">
-							<h3>오사카 엑스포 탐방</h3>
-							<p>오사카 엑스포에서는 "생명이 빛나는 미래사회의 디자인(Designing Future Society for Our Lives)"이라는 주제로 펼쳐질 첨단 기술 혁신과 미래 미디어 및 커뮤니케이션의 가능성을 탐방하고 그 다채롭고 방대한 내용을 전공의 특성을 살려 다양한 포맷의 결과물로 표현합니다. 이를 통해 학생들은 국제적 안목과 미래 지향적 사고를 함양할 수 있는 소중한 제작 경험을 가집니다.</p>
+							<!-- 참가 학생 팀 4 -->
+							<h3 style="text-align: center; margin-top: 3em; margin-bottom: 1.5em; font-size: 1.3em;">참가 학생 - 디자인팀</h3>
+							<div class="participants-grid">
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/디자인팀/김동혁.jpg" alt="김동혁" class="participant-image main">
+										<img src="images/프로필/디자인팀/김동혁2.jpg" alt="김동혁 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>김동혁</h3>
+										<p>서양화전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/디자인팀/이승은.jpg" alt="이승은" class="participant-image main">
+										<img src="images/프로필/디자인팀/이승은2.jpg" alt="이승은 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>이승은</h3>
+										<p>시각디자인전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/디자인팀/임주현.jpg" alt="임주현" class="participant-image main">
+										<img src="images/프로필/디자인팀/임주현2.jpg" alt="임주현 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>임주현</h3>
+										<p>시각디자인전공</p>
+									</div>
+								</div>
 							</div>
-						</div>
 
-						<!-- 박스 5 -->
-						<div class="gallery-item">
-							<img src="images/KakaoTalk_20250727_233211243_04.jpg" alt="중간 발표">
-							<div class="gallery-text">
-							<h3>중간 발표</h3>
-							<p>‘가깝고도 먼’ 한·일 양국은 지리적으로는 이웃이지만 정서적으로는 이방인입니다. 과거의 아픈 역사를 배우고, 미래를 향한 비전을 선취하는 엑스포를 경험하는 이번 프로그램을 통해서 참가자들이 한국 사회와 국제사회에서 소통과 평화의 선도자로 거듭날 기반을 갖고, 양국의 진정한 화해와 협력의 가능성을 모색할 수 있기를 바랍니다. 또한 그 가능성을 기사 작성, 다채로운 영상 제작, 그림 및 웹아트로 구현해, 더 많은 이들에게 이 경험을 전달할 수 있도록 이 웹사이트에 기록을 남깁니다.</p>
+							<!-- 참가 학생 팀 5 -->
+							<h3 style="text-align: center; margin-top: 3em; margin-bottom: 1.5em; font-size: 1.3em;">참가 학생 - 취재 및 통역팀</h3>
+							<div class="participants-grid">
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/취재팀/최은파.jpg" alt="최은파" class="participant-image main">
+										<img src="images/프로필/취재팀/최은파2.jpg" alt="최은파 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>최은파</h3>
+										<p>문예창작학과<br>미디어커뮤니케이션학과<br>언론정보 복수전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/취재팀/박채원.jpg" alt="박채원" class="participant-image main">
+										<img src="images/프로필/취재팀/박채원2.jpg" alt="박채원 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>박채원</h3>
+										<p>일본어문학전공</p>
+									</div>
+								</div>
+
+								<div class="participant-card">
+									<div class="participant-image-wrapper">
+										<img src="images/프로필/취재팀/박채원.jpg" alt="박채원" class="participant-image main">
+										<img src="images/프로필/취재팀/박채원2.jpg" alt="박채원 2" class="participant-image hover">
+									</div>
+									<div class="participant-info">
+										<h3>박채원</h3>
+										<p>일본어문학전공</p>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div style="margin-bottom: 2em;"></div>
 
+						</div>
 					</div>
 				</section>
 
 			<!-- Footer -->
 				<section id="footer">
-					<div class="container">
+					<div class="container" style="text-align: left;">
 						<div class="row">
 							<div class="col-4 col-6-medium col-12-small">
 								<section>
@@ -198,7 +447,7 @@
 									</header>
 									<ul class="divided">
 										<li><a href="https://www.japan.travel/en/spot/742/">나가사키 평화 공원</a></li>
-										<li><a href="https://www.japan.travel/ko/world-heritage/hiroshima-peace-memorial/">히로시마 평화 기념 공원</a></li>
+										<li><a href="https://wam-peace.org/en/">wam-peace 자료관</a></li>
 										<li><a href="https://overseas.mofa.go.kr/jp-fukuoka-ko/brd/m_1606/view.do?seq=1331229&srchFr=&amp;srchTo=&amp;srchWord=&amp;srchTp=&amp;multi_itm_seq=0&amp;itm_seq_1=0&amp;itm_seq_2=0&amp;company_cd=&amp;company_nm=">나가사키 인권평화자료관</a></li>
 										<li><a href="https://encykorea.aks.ac.kr/Article/E0061343">한국원폭피해자대책특별위원회</a></li>
 									</ul>
@@ -210,9 +459,9 @@
 										<h2>미래를 위해</h2>
 									</header>
 									<ul class="divided">
-										<li><a href="https://www.nagasaki-u.ac.jp/kr/">나가사키 국립 대학교</a></li>
-										<li><a href="https://www.int-students-hiroshima.jp/kr/school/detail.php?UID=26">히로시마 시립 대학교</a></li>
-										<li><a href="https://www.expo2025.or.jp/en/">오사카 간사이 엑스포</a></li>
+										<li><a href="https://www.rikkyo.ac.jp/">릿쿄 대학교</a></li>
+										<li><a href="https://www.chuo-u.ac.jp/">주오 대학교</a></li>
+										<li><a href="https://www.nagasaki-u.ac.jp/kr/">나가사키 대학교</a></li>
 										<li><a href="https://www.cau.ac.kr/index.do">중앙대학교</a></li>
 									</ul>
 								</section>
@@ -243,18 +492,18 @@
 								</section>
 							</div>
 							<div class="col-12">
-
 								<!-- Copyright -->
 									<div id="copyright">
 										<ul class="links">
 											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 										</ul>
 									</div>
-
 							</div>
 						</div>
 					</div>
 				</section>
+		</div>
+
 		</div>
 
 		<!-- Scripts -->
