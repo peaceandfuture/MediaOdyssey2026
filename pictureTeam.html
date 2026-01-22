@@ -114,6 +114,22 @@ body.myNavOpen #myNavOverlay{
 }
 #myNavPanel a:active{ background: rgba(0,0,0,0.04); }
 
+/* 하위 메뉴(드롭다운) 스타일 */
+#myNavPanel ul ul{
+  display: block !important;
+  position: static !important;
+  background: rgba(0,0,0,0.03);
+  padding-left: 0;
+}
+#myNavPanel ul ul li{
+  border-top: 1px solid rgba(0,0,0,0.04);
+}
+#myNavPanel ul ul a{
+  padding-left: 30px;
+  font-size: 0.95em;
+  color: #555;
+}
+
 /* 데스크톱에서는 아예 존재해도 보이지 않게 */
 @media (min-width: 981px){
   #myTitleBar, #myNavPanel, #myNavOverlay{ display:none !important; }
@@ -344,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
 								<li class="current"><a href="pictureTeam.html">사진 팀</a></li>
 								<li><a href="vedioTeam.html">영상 팀</a></li>
 								<li><a href="designTeam.html">디자인 팀</a></li>
-								<li><a href="webTeam.html">취재 및 통역 팀</a></li>
+								<li><a href="webTeam.html">통역 및 웹진 팀</a></li>
 								<li><a href="https://ong09148.wixsite.com/website/news">웹진 및 뉴스</a></li>
 								<li><a href="introduce_people.html">참가자 소개</a></li>
 							</ul>
