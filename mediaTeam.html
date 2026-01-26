@@ -341,6 +341,113 @@ document.addEventListener('DOMContentLoaded', function () {
 			#prevBtn{grid-row:5; justify-self:start}
 			#nextBtn{grid-row:5; justify-self:end}
 		}
+
+		/* 모달 스타일 */
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 30000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.9);
+			animation: fadeIn 0.3s ease;
+		}
+
+		.modal.active {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.modal-content {
+			max-width: 80vw;
+			max-height: 80vh;
+			position: relative;
+			animation: zoomIn 0.3s ease;
+			margin: auto;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.modal-content img,
+		.modal-content video {
+			max-width: 100%;
+			max-height: 80vh;
+			width: auto;
+			height: auto;
+			object-fit: contain;
+			display: block;
+		}
+
+		.modal-content iframe {
+			width: 90vw;
+			height: 50.625vw; /* 16:9 비율 유지 */
+			max-height: 90vh;
+			max-width: calc(90vh * 16 / 9);
+		}
+
+		.modal-close {
+			position: absolute;
+			top: 20px;
+			right: 30px;
+			color: #fff;
+			font-size: 40px;
+			font-weight: bold;
+			cursor: pointer;
+			z-index: 30001;
+			background: rgba(0, 0, 0, 0.5);
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background 0.2s ease;
+		}
+
+		.modal-close:hover {
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+
+		@keyframes zoomIn {
+			from { transform: scale(0.8); opacity: 0; }
+			to { transform: scale(1); opacity: 1; }
+		}
+
+		.card img,
+		.card video,
+		.card iframe {
+			cursor: pointer;
+			transition: opacity 0.2s ease;
+		}
+
+		.card img:hover,
+		.card video:hover,
+		.card iframe:hover {
+			opacity: 0.85;
+		}
+
+		/* 모바일에서는 모달 기능 비활성화 */
+		@media (max-width: 720px) {
+			.card img,
+			.card video,
+			.card iframe {
+				cursor: default;
+			}
+			.card img:hover,
+			.card video:hover,
+			.card iframe:hover {
+				opacity: 1;
+			}
+		}
 		</style>
 	</head>
 	<body class="right-sidebar is-preload">
@@ -420,148 +527,144 @@ document.addEventListener('DOMContentLoaded', function () {
 					</div>	
 				</section>
 
-		</div>
+			<!-- 모달 -->
+			<div id="imageModal" class="modal">
+				<span class="modal-close" id="modalClose">&times;</span>
+				<div class="modal-content" id="modalContent"></div>
+			</div>
 
-		<!-- Scripts -->
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				var navPanel = document.getElementById('navPanel');
-				var titleBar = document.getElementById('titleBar');
-				if (navPanel) navPanel.remove();
-				if (titleBar) titleBar.remove();
-			});
-			var observer = new MutationObserver(function(mutations) {
-				mutations.forEach(function(mutation) {
-					if (mutation.addedNodes.length) {
-						mutation.addedNodes.forEach(function(node) {
-							if (node.id === 'navPanel' || node.id === 'titleBar') {
-								node.remove();
-							}
-						});
-					}
-				});
-			});
-			observer.observe(document.body, { childList: true });
-		</script>
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.dropotron.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
+	</div>
 
-		<script>
-			/* ====== 데이터 (작품 3개 고정: 4:3 하나 + 1:1 두 개) ====== */
-			const people = [
-				{
-				name: "김강민", meta: "관현악 전공",
-				drive: "https://drive.google.com/drive/folders/1sVqxnOz3FcaXuPnuH0hG9ba6DQsBkg4-?usp=drive_link",
-				works: [
-					{ kind: "youtube", id: "bywExJ8uoYA?si=623ch1dPApQJcpzY" }, // 4:3
-					{ kind: "image", src: "images/김강민사진1.png" }, // 1:1(위)
-					{ kind: "image", src: "images/김강민사진2.jpg" }  // 1:1(아래)
-				],
-				lines: [ /*10줄까지 쓸 수 있음*/
-					"공연팀 기획, 리더를 맡으며",
-					"합창 지도 및 지휘,",
-					"간단한 유포니움 솔로를 준비하여",
-					"음악이라는 매개체로",
-					"추모와 평화의 뜻을",
-					"전달하고자 하였습니다",
-				],
-				desc: "음악이란, 만국의언어"
-				},
-				{
-				name: "김보미", meta: "전통예술학부 연희예술전공",
-				drive: "https://drive.google.com/drive/folders/11-EaS3cY6JnryZerAdpS_pMBGXcEB3XF?usp=drive_link",
-				works: [
-					{ kind: "youtube", id: "hxd1Bx1cUzE?si=P1--5MMNmToxXZic" }, // 4:3
-					{ kind: "image", src: "images/보미1.png" }, // 1:1(위)
-					{ kind: "image", src: "images/보미2.png" }  // 1:1(아래)
-				],
-				lines: [ /*10줄까지 쓸 수 있음*/
-					"기억으로 잊지 않고, ",
-					"마음으로 잇는 노래.",
-				],
-				desc: "경기민요, 이별가, 상사화"
-				},
-				{
-				name: "양현태", meta: "전통예술학부 판소리 전공",
-				drive: "https://drive.google.com/drive/folders/1d1hCOZxC6wLJbN60-9V4EmMZFceGNztF?usp=drive_link",
-				works: [
-					{ kind: "image", src: "images/1768876554805.jpg" },
-					{ kind: "image", src: "images/1768876554677.jpg" },
-					{ kind: "image", src: "images/1768876554396.jpg" }
-				],
-				lines: [
-					"시인의 거울 앞에 마주 서서",
-					"소리로 풀어내는 참회의 기록,",
-					"그 깊은 고백이 노래가 되기까지.",
-				],
-				desc: "릿쿄대학교, 윤동주, 참회록, 창작국악"
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+	<script>
+		/* ====== 데이터 (작품 3개 고정: 4:3 하나 + 1:1 두 개) ====== */
+		const people = [
+			{
+			name: "김강민", meta: "관현악 전공",
+			drive: "https://drive.google.com/drive/folders/1sVqxnOz3FcaXuPnuH0hG9ba6DQsBkg4-?usp=drive_link",
+			works: [
+				{ kind: "youtube", id: "bywExJ8uoYA?si=623ch1dPApQJcpzY" }, // 4:3
+				{ kind: "image", src: "images/김강민사진1.png" }, // 1:1(위)
+				{ kind: "image", src: "images/김강민사진2.jpg" }  // 1:1(아래)
+			],
+			lines: [ /*10줄까지 쓸 수 있음*/
+				"공연팀 기획, 리더를 맡으며",
+				"합창 지도 및 지휘,",
+				"간단한 유포니움 솔로를 준비하여",
+				"음악이라는 매개체로",
+				"추모와 평화의 뜻을",
+				"전달하고자 하였습니다",
+			],
+			desc: "음악이란, 만국의언어"
+			},
+			{
+			name: "김보미", meta: "전통예술학부 연희예술전공",
+			drive: "https://drive.google.com/drive/folders/11-EaS3cY6JnryZerAdpS_pMBGXcEB3XF?usp=drive_link",
+			works: [
+				{ kind: "youtube", id: "hxd1Bx1cUzE?si=P1--5MMNmToxXZic" }, // 4:3
+				{ kind: "image", src: "images/보미1.png" }, // 1:1(위)
+				{ kind: "image", src: "images/보미2.png" }  // 1:1(아래)
+			],
+			lines: [ /*10줄까지 쓸 수 있음*/
+				"기억으로 잊지 않고, ",
+				"마음으로 잇는 노래.",
+			],
+			desc: "경기민요, 이별가, 상사화"
+			},
+			{
+			name: "양현태", meta: "전통예술학부 판소리 전공",
+			drive: "https://drive.google.com/drive/folders/1d1hCOZxC6wLJbN60-9V4EmMZFceGNztF?usp=drive_link",
+			works: [
+				{ kind: "image", src: "images/1768876554805.jpg" },
+				{ kind: "image", src: "images/1768876554677.jpg" },
+				{ kind: "image", src: "images/1768876554396.jpg" }
+			],
+			lines: [
+				"시인의 거울 앞에 마주 서서",
+				"소리로 풀어내는 참회의 기록,",
+				"그 깊은 고백이 노래가 되기까지.",
+			],
+			desc: "릿쿄대학교, 윤동주, 참회록, 창작국악"
+			}
+		];
+
+		/* ====== 요소 ====== */
+		const headEl  = document.getElementById('personHead');
+		const whoEl   = document.getElementById('who');
+		const dotsEl  = document.getElementById('dots');
+		const descEl  = document.getElementById('desc');
+		const driveEl = document.getElementById('driveLink');
+		const textBox = document.getElementById('textLines');
+		const cardA   = document.getElementById('cardA');
+		const cardB   = document.getElementById('cardB');
+		const cardC   = document.getElementById('cardC');
+		const prevBtn = document.getElementById('prevBtn');
+		const nextBtn = document.getElementById('nextBtn');
+
+		/* ====== 렌더 유틸 ====== */
+		function put(item, target){
+			target.innerHTML = "";
+			if(!item) return;
+
+			const isMobile = window.innerWidth <= 720;
+
+			if(item.kind === "youtube"){
+				const iframe = document.createElement("iframe");
+				iframe.src = `https://www.youtube.com/embed/${item.id}`;
+				iframe.title = "YouTube video player";
+				iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+				iframe.referrerPolicy = "strict-origin-when-cross-origin";
+				iframe.allowFullscreen = true;
+				if(!isMobile) {
+					iframe.style.cursor = "pointer";
+					iframe.addEventListener('click', () => openModal(item));
 				}
-			];
-
-			/* ====== 요소 ====== */
-			const headEl  = document.getElementById('personHead');
-			const whoEl   = document.getElementById('who');
-			const dotsEl  = document.getElementById('dots');
-			const descEl  = document.getElementById('desc');
-			const driveEl = document.getElementById('driveLink');
-			const textBox = document.getElementById('textLines');
-			const cardA   = document.getElementById('cardA');
-			const cardB   = document.getElementById('cardB');
-			const cardC   = document.getElementById('cardC');
-
-			const prevBtn = document.getElementById('prevBtn');
-			const nextBtn = document.getElementById('nextBtn');
-
-			/* ====== 렌더 유틸 ====== 
-			function put(item, target){
-				target.innerHTML = "";
-				if(!item){ target.appendChild(document.createElement('div')); return; }
-				if(item.type === "video"){
-				const v=document.createElement('video'); v.src=item.src; v.controls=true; v.playsInline=true;
-				target.appendChild(v);
-				}else{
-				const img=new Image(); img.src=item.src; target.appendChild(img);
-				}
-			}*/
-
-			function put(item, target){
-				target.innerHTML = "";
-				if(!item) return;
-
-				if(item.kind === "youtube"){
-					const iframe = document.createElement("iframe");
-					iframe.src = `https://www.youtube.com/embed/${item.id}`;
-					iframe.title = "YouTube video player";
-					iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-					iframe.referrerPolicy = "strict-origin-when-cross-origin";
-					iframe.allowFullscreen = true;
-					target.appendChild(iframe);
-					return;
-				}
-
-				// image
-				const img = new Image();
-				img.src = item.src;
-				img.alt = "";
-				target.appendChild(img);
+				target.appendChild(iframe);
+				return;
 			}
 
+			// image or video
+			if(item.kind === "video"){
+				const video = document.createElement('video');
+				video.src = item.src;
+				video.controls = true;
+				video.playsInline = true;
+				if(!isMobile) {
+					video.style.cursor = "pointer";
+					video.addEventListener('click', () => openModal(item));
+				}
+				target.appendChild(video);
+				return;
+			}
 
-			function buildDots(active=0){
-				dotsEl.innerHTML = "";
-				people.forEach((_, idx)=>{
+			// image
+			const img = new Image();
+			img.src = item.src;
+			img.alt = "";
+			if(!isMobile) {
+				img.style.cursor = "pointer";
+				img.addEventListener('click', () => openModal(item));
+			}
+			target.appendChild(img);
+		}
+
+		function buildDots(active=0){
+			dotsEl.innerHTML = "";
+			people.forEach((_, idx)=>{
 				const d=document.createElement('div');
 				d.className = 'dot' + (idx===active ? ' active' : '');
 				d.addEventListener('click', ()=>go(idx));
 				dotsEl.appendChild(d);
-				});
-			}
+			});
+		}
 
-			function buildTextLines(lines = []) {
+		function buildTextLines(lines = []) {
 			textBox.innerHTML = "";
 			const list = lines.length ? lines : Array(15).fill("");  // 기본 15줄
 			list.slice(0, 15).forEach(t => {
@@ -570,44 +673,121 @@ document.addEventListener('DOMContentLoaded', function () {
 				div.textContent = t;  // 빈 문자열이면 밑줄만 보임
 				textBox.appendChild(div);
 			});
-			}
-			/* ====== 상태/렌더 ====== */
-			let cur=0;
+		}
 
-			function render(){
-				const p = people[cur];
-				headEl.innerHTML = `<span class="name">${p.name}</span> <span class="meta">(${p.meta || ""})</span>`;
-				whoEl.textContent  = `${p.name} — ${cur+1} / ${people.length}`;
-				descEl.textContent = p.desc || "";
-				if(p.drive) driveEl.href = p.drive;
+		/* ====== 상태/렌더 ====== */
+		let cur=0;
 
-				// 작품 3개 매핑
-				const list = (p.works||[]).slice(0,3);
-				put(list[0], cardA); // 4:3
-				put(list[1], cardB); // 1:1 위
-				put(list[2], cardC); // 1:1 아래
+		function render(){
+			const p = people[cur];
+			headEl.innerHTML = `<span class="name">${p.name}</span> <span class="meta">(${p.meta || ""})</span>`;
+			whoEl.textContent  = `${p.name} — ${cur+1} / ${people.length}`;
+			descEl.textContent = p.desc || "";
+			if(p.drive) driveEl.href = p.drive;
 
-				buildTextLines(p.lines || []);
-				[...dotsEl.children].forEach((d,i)=>d.classList.toggle('active', i===cur));
-			}
+			// 작품 3개 매핑
+			const list = (p.works||[]).slice(0,3);
+			put(list[0], cardA); // 4:3
+			put(list[1], cardB); // 1:1 위
+			put(list[2], cardC); // 1:1 아래
 
-			function go(n){
-				cur = (n + people.length) % people.length; // 무한 순환
-				render();
-			}
+			buildTextLines(p.lines || []);
+			[...dotsEl.children].forEach((d,i)=>d.classList.toggle('active', i===cur));
+		}
 
-			/* ====== 이벤트 ====== */
-			prevBtn.addEventListener('click', ()=>go(cur-1));
-			nextBtn.addEventListener('click', ()=>go(cur+1));
-			window.addEventListener('keydown', e=>{
-				if(e.key === 'ArrowLeft')  go(cur-1);
-				if(e.key === 'ArrowRight') go(cur+1);
-			});
-
-			/* 초기화 */
-			buildDots(0);
+		function go(n){
+			cur = (n + people.length) % people.length; // 무한 순환
 			render();
-		</script>
+		}
 
-	</body>
+		/* ====== 모달 관련 ====== */
+		const modal = document.getElementById('imageModal');
+		const modalContent = document.getElementById('modalContent');
+		const modalClose = document.getElementById('modalClose');
+
+		function openModal(item) {
+			modalContent.innerHTML = "";
+			
+			if(item.kind === "youtube"){
+				const iframe = document.createElement("iframe");
+				iframe.src = `https://www.youtube.com/embed/${item.id}?autoplay=1`;
+				iframe.title = "YouTube video player";
+				iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+				iframe.referrerPolicy = "strict-origin-when-cross-origin";
+				iframe.allowFullscreen = true;
+				modalContent.appendChild(iframe);
+			} else if(item.kind === "video"){
+				const video = document.createElement('video');
+				video.src = item.src;
+				video.controls = true;
+				video.autoplay = true;
+				video.playsInline = true;
+				modalContent.appendChild(video);
+			} else {
+				const img = new Image();
+				img.src = item.src;
+				img.alt = "";
+				modalContent.appendChild(img);
+			}
+			
+			modal.classList.add('active');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function closeModal() {
+			modal.classList.remove('active');
+			modalContent.innerHTML = "";
+			document.body.style.overflow = '';
+		}
+
+		modalClose.addEventListener('click', closeModal);
+		modal.addEventListener('click', (e) => {
+			if(e.target === modal) closeModal();
+		});
+		window.addEventListener('keydown', (e) => {
+			if(e.key === 'Escape') closeModal();
+		});
+
+		/* ====== 이벤트 ====== */
+		prevBtn.addEventListener('click', ()=>go(cur-1));
+		nextBtn.addEventListener('click', ()=>go(cur+1));
+		window.addEventListener('keydown', e=>{
+			if(e.key === 'ArrowLeft')  go(cur-1);
+			if(e.key === 'ArrowRight') go(cur+1);
+		});
+
+		/* 초기화 */
+		buildDots(0);
+		render();
+	</script>
+
+	<!-- Scripts -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var navPanel = document.getElementById('navPanel');
+			var titleBar = document.getElementById('titleBar');
+			if (navPanel) navPanel.remove();
+			if (titleBar) titleBar.remove();
+		});
+		var observer = new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+				if (mutation.addedNodes.length) {
+					mutation.addedNodes.forEach(function(node) {
+						if (node.id === 'navPanel' || node.id === 'titleBar') {
+							node.remove();
+						}
+					});
+				}
+			});
+		});
+		observer.observe(document.body, { childList: true });
+	</script>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
 </html>
